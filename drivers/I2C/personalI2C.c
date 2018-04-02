@@ -2,7 +2,7 @@
  * personalI2C.c
  *
  *  Created on: Mar 20, 2018
- *      Author: Sean Link
+ *      Author: Sean Link and Chloe Mena
  *     Purpose: Store the function definitions for the I2C peripheral
  */
 
@@ -49,9 +49,6 @@ void setupI2C(void) {
 
     // Initializing Master and Slave
     I2CMasterInitExpClk(I2C2_BASE, SysCtlClockGet(), true);
-
-    // Specifying slave address and writing
-    //I2CMasterSlaveAddrSet(I2C2_BASE, 0x60, false);
 
     // Allowing peripheral functionality
     I2CMasterEnable(I2C2_BASE);

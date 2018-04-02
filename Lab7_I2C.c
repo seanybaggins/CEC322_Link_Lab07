@@ -3,7 +3,7 @@
  *
  * Class: CEC322
  * University: ERAU - Prescott
- * Authors: Sean Link
+ * Authors: Sean Link and Chloe Mena
  * Date: 3/20/2018
  *
  */
@@ -60,11 +60,11 @@ uint8_t menuSelection = '\0';
 //****************************************************************************
 // Interrupts
 //****************************************************************************
-
+// For trouble shooting purposes
 void oneSecondTimer(void) {
     TimerIntClear(TIMER0_BASE, TIMER_TIMA_TIMEOUT);
     static uint32_t timerCount = 0;
- //   clearBlack();
+    //clearBlack();
 
     timerCount++;
     //displayInfoOnBoard("%d", timerCount, 25, DISPLAY_NUMBER);
@@ -193,9 +193,6 @@ main(void)
         //********************************************************************
         static uint8_t I2CData[2] = {0x00, 0x00};
         static uint32_t waveFormCounter = 0;
-        static uint8_t* previousBuffer;
-
-        previousBuffer = I2CData;
 
         switch(waveFormState) {
             case SAWTOOTH: {
@@ -225,7 +222,6 @@ main(void)
                 uint32_t digitalValue = SIN_I2C_SCALING_FACTOR * (sin(waveFormCounter * PI/180) + 1);
                 I2CData[1] = digitalValue & 0xFF;
                 I2CData[0] = (digitalValue & 0xF00) >> 8;
-                //SysCtlDelay(10000);
                 break;
             }
             case TANGENT: {
@@ -236,9 +232,6 @@ main(void)
             }
         }
 
-        if (previousBuffer[1] == I2CData[1] && previousBuffer[0] == I2CData[0]) {
-            bool shitWentWrong = true;
-        }
         // Creating waveform based on the I2C Buffer
         i2c_write(I2C2_BASE, 0x60, 2, I2CData);
 
